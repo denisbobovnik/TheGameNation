@@ -1,9 +1,9 @@
 SET FOREIGN_KEY_CHECKS=0;
-
+/*
 DROP TABLE `Users` CASCADE;
 DROP TABLE `Thread` CASCADE;
 DROP TABLE `Post` CASCADE;
-
+*/
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE `Users`(
@@ -13,9 +13,6 @@ CREATE TABLE `Users`(
 `email` VARCHAR(45) NOT NULL,
 `pass` VARCHAR(45) NOT NULL,
 PRIMARY KEY (`ID_user`));
-
-
-
 
 CREATE TABLE `Thread`(
 `ID_thread` INT auto_increment,
