@@ -1,0 +1,65 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@include file="header.jsp"%>
+	
+	<article class="span12">
+
+		<form method="post" onsubmit="return validateRegistration()" action="/TGN/Registracija" style=" text-align:center">
+			<h3>Registration</h3>
+			<fieldset>
+				<div>
+					<label class="name">
+						<input type="text" id="first_name" name="first_name" value="" placeholder="Name" required>
+					</label>
+				</div>
+				<div>
+					<label class="name">
+						<input type="text" id="last_name" name="last_name" value="" placeholder="Last name" required>
+					</label>
+				</div>
+				<div>
+					<label class="name">
+						<input type="text" id="email" name="email" value="" placeholder="Email" required>
+					</label>
+				</div>
+				<div>
+					<label class="phone">
+						<input type="password" id="pass" name="pass"  value="" placeholder="Password" required>
+					</label>
+				</div>
+				<div>
+					<label class="phone">
+						<input type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password" required>
+					</label>
+				</div>
+				<div class="buttons-wrapper">
+					<input type="submit" class="btn btn-1" value="Register" />
+				</div>
+				
+				<br />
+				<center><p id="feedback_reg"></p></center>
+				
+				              						<%String exists = "";
+						if(request.getAttribute("exists")!= null) {
+							exists = (String) request.getAttribute("exists");%>
+							<br /><center><%=exists %></center>
+						<%}%>
+						
+						
+						
+						<%String noMatch = "";
+						if(request.getAttribute("noMatch")!= null) {
+							noMatch = (String) request.getAttribute("noMatch");%>
+							<br /><center><%=noMatch %></center>
+						<%}%>
+				
+				<h3>Already have an account? Login here.</h3>
+				<div class="buttons-wrapper">
+					<a class="btn btn-1" href="login.jsp">Login</a>
+				</div>
+           </fieldset>
+        </form>
+
+	</article>
+
+<%@include file="footer.jsp"%>

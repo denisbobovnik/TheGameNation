@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;TGN/WebContent/js/validacija.js&apos; to &apos;validator.js&apos;" description="Rename resource &apos;validacija.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/js/validacija.js" name="validator.js" stamp="1515483173142" updateReferences="true"/>
+</session>

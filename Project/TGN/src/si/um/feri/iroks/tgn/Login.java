@@ -48,10 +48,9 @@ public class Login extends HttpServlet {
         	session.setAttribute("email", email);
         	response.sendRedirect("index.jsp");
         } else {
-        	out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
-        	out.println("alert('Wrong password or user doesn't exist! Try again.');");
-        	out.println("location='login.jsp';");
-        	out.println("</script>");
+        	String doesntExist = "Wrong password or user doesn't exist! Try again.";
+	        request.setAttribute("doesntExist", doesntExist);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
 	}
 	public Boolean login(String email, String password) {
