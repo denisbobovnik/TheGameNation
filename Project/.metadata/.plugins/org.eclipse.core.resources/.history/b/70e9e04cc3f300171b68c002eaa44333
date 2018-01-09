@@ -14,7 +14,7 @@ public class UserDao {
 
 	private Connection getConnection() {
 		try {
-			DataSource ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/iroks");
+			DataSource ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/tgn");
 			return ds.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
