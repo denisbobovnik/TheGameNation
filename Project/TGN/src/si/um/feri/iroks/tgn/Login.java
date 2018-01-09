@@ -61,7 +61,7 @@ public class Login extends HttpServlet {
 		String hashedPassword = new UserDao().generateHash(saltedPassword);
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://Mysql@localhost:3306/tgn?autoReconnect=true&useSSL=false", "tgn", "F3RI"); //check this if its ok
+    	    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "root", "F3RI");
 	        Statement st = con.createStatement();
 	        ResultSet rs = st.executeQuery("select * from users where email='" + email + "';");
 	        if (rs.next()) {

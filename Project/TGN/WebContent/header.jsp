@@ -22,6 +22,9 @@
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon.ico">
+    
+    <script type="text/javascript" src="js/validator.js"></script>
+    
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jquery.scrollTo-1.4.2-min.js"></script>
     <script type="text/javascript" src="js/jquery.localscroll-1.2.7-min.js"></script>
@@ -48,15 +51,17 @@
                 
                 <li><a title="services" href="#services">All topics</a></li>
                 
+     			<% if ((session.getAttribute("email") != null) && (((String) session.getAttribute("email")).compareTo("")!=0)) { %>           
+	                <li><a title="news" href="#news">Live chat</a></li> <!-- if we can't make it work site-wide -->
+               		<li><a title="team" href="#team">Account</a></li>
+                <% } %>
                 
-                <li><a title="news" href="#news">Live chat</a></li> <!-- if we can't make it work site-wide (when logged in) -->
-                
-                
-                <li><a title="team" href="#team">Account</a></li>
-                
-                
-                <li><a title="contact" href="#contact">Login</a></li>
-              
+                <% if ((session.getAttribute("email") == null) || (((String) session.getAttribute("email")).compareTo("")==0)) { %>
+					<li><a title="login" href="login.jsp">Login</a></li>
+				<%} else { %>
+					<li><a title="logout" href="logout.jsp">Logout</a></li>
+				<%} %>
+				              
               </ul>
             </nav>
           </div>

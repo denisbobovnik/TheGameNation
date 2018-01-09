@@ -43,7 +43,7 @@ public class Registration extends HttpServlet {
     			String saltyPassword = SALT + pass;
     			String hashedPassword = new UserDao().generateHash(saltyPassword);
 				Class.forName("com.mysql.jdbc.Driver");
-	    	    Connection con = DriverManager.getConnection("jdbc:mysql://Mysql@localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "tgn", "F3RI"); //check this if its ok
+	    	    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "root", "F3RI");
 	    	    Statement st = con.createStatement();
 	    	    /* prevents duplicate user entry to the DB */
 	    		ResultSet existingUsers = st.executeQuery("select email from users");
@@ -64,7 +64,7 @@ public class Registration extends HttpServlet {
 	    			ss.setString(4, hashedPassword);
 	    			ss.executeUpdate();
 	    			out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
-	    			out.println("alert('Registration successfull! Redirecting to login...');");
+	    			out.println("alert('Registration successful! Redirecting to login...');");
 	    			out.println("location='login.jsp';");
 	    			out.println("</script>");
 	    		}
