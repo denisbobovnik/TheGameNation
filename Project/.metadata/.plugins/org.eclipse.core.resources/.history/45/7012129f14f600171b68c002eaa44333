@@ -1,0 +1,7 @@
+<% if((session.getAttribute("email") == null)||(session.getAttribute("email").equals(""))) { %>
+	
+} else {
+	session.setAttribute("email", null);
+	session.invalidate();
+	response.sendRedirect("index.jsp");
+} %>

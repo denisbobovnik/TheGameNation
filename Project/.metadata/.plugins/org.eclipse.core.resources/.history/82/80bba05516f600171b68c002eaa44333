@@ -1,0 +1,5 @@
+package si.um.feri.iroks.tgn;
+
+public class DBConnect {
+
+}
