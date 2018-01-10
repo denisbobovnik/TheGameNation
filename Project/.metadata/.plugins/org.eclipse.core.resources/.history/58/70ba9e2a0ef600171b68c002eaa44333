@@ -1,13 +1,10 @@
 package si.um.feri.iroks.tgn;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -49,7 +46,7 @@ public class Registration extends HttpServlet {
     			String saltyPassword = SALT + pass;
     			String hashedPassword = new UserDao().generateHash(saltyPassword);
 				Class.forName("com.mysql.jdbc.Driver");
-	    	    Connection con = DBConnect.getConnection();
+	    	    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "root", "F3RI");
 	    	    Statement st = con.createStatement();
 	    	    /* prevents duplicate user entry to the DB */
 	    		ResultSet existingUsers = st.executeQuery("select email from users");
@@ -68,7 +65,7 @@ public class Registration extends HttpServlet {
 	    			ss.setString(2, last_name);
 	    			ss.setString(3, email);
 	    			ss.setString(4, hashedPassword);
-	    			ss.setBlob(5, new UserDao().defaultProfilePhoto());
+	    			ss.setBlob(5, givePlaceholderImage());
 	    			ss.executeUpdate();
 	    			out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
 	    			out.println("alert('Registration successful! Redirecting to login...');");
@@ -79,9 +76,6 @@ public class Registration extends HttpServlet {
 				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
         }
         else {
@@ -89,5 +83,16 @@ public class Registration extends HttpServlet {
             request.setAttribute("noMatch", noMatch);
     		request.getRequestDispatcher("/registration.jsp").forward(request, response);
         }
+    }
+    public InputStream givePlaceholderImage() throws IOException {
+    	try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream("filename.txt"), "utf-8"))) {
+     writer.write("something");
+  }
+    	/*
+    	File initialFile = new File("personHolder.png");
+    	InputStream targetStream = new FileInputStream(initialFile);
+    	return targetStream;
+    	*/
     }
 }

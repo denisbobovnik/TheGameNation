@@ -49,7 +49,7 @@ public class Registration extends HttpServlet {
     			String saltyPassword = SALT + pass;
     			String hashedPassword = new UserDao().generateHash(saltyPassword);
 				Class.forName("com.mysql.jdbc.Driver");
-	    	    Connection con = DBConnect.getConnection();
+	    	    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "root", "F3RI");
 	    	    Statement st = con.createStatement();
 	    	    /* prevents duplicate user entry to the DB */
 	    		ResultSet existingUsers = st.executeQuery("select email from users");
@@ -78,9 +78,6 @@ public class Registration extends HttpServlet {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
