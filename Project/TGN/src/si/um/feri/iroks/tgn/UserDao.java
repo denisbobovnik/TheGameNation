@@ -65,7 +65,7 @@ public class UserDao {
 			ps.setString(1, email);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				ret = new User(rs.getInt("users_id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("pass"), rs.getBlob("photo"));
+				ret = new User(rs.getInt("ID_user"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("pass"), rs.getBlob("photo"));
 				break;
 			}
 			rs.close();

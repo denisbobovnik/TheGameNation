@@ -1,5 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
  <%@include file="header.jsp"%>
+ <%@page import="si.um.feri.iroks.tgn.*"%>
+ <%@page import="java.sql.Blob"%>
+ <%@page import="java.io.OutputStream" %>
+ 
+
+ <%@page import="org.apache.commons.codec.binary.Base64" %>
  	<% if((session.getAttribute("email") == null)||(session.getAttribute("email").equals(""))) { 
  	    out.println("<script type=\"text/javascript\">");
  	    out.println("alert('To access this page, you must be logged in!');");
@@ -13,9 +19,12 @@
 			
 			<%	
 				String email = (String) session.getAttribute("email");
-				User prijavljen = new UserDao().selectUser(email);
-			
+				User loggedIn = new UserDao().selectUser(email);
+				Blob pic = loggedIn.getPhoto();
+				byte[] picData = pic.getBytes(1, (int) pic.length());
 			%>
+				<img src="data:image/jpeg;base64,<%=Base64.encodeBase64() %> Base64.encodeBase64()" height="50px" width="50px" alt="userPhoto" >
+			
 			
 				<input style="width: 200px;" type="text" id="first_name" name="first_name" value="" placeholder="Name" required><br>
 				<input style="width: 200px;" type="text" id="last_name" name="last_name" value="" placeholder="Last name" required><br>
