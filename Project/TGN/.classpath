@@ -13,6 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/Denis Bobovnik/Desktop/FERI/2. letnik/1. semester/IROKS - Integrirana Razvojna Okolja in Komuniciranje Skupin (2sk)/GitHub/TheGameNation/Project/commons-codec-1.11.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
