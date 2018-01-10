@@ -12,6 +12,7 @@ CREATE TABLE `Users`(
 `last_name` VARCHAR(45) NOT NULL,
 `email` VARCHAR(45) NOT NULL,
 `pass` VARCHAR(45) NOT NULL,
+`photo` MEDIUMBLOB NOT NULL,
 PRIMARY KEY (`ID_user`));
 
 CREATE TABLE `Thread`(
@@ -22,7 +23,7 @@ CREATE TABLE `Thread`(
 PRIMARY KEY (`ID_thread`));
 
 ALTER TABLE `Thread`
-	ADD CONSTRAINT fk_thread_users foreign key
+	ADD CONSTRAINT fusersk_thread_users foreign key
     (user_users_id) references Users(ID_user);
     
 CREATE TABLE `Post`(

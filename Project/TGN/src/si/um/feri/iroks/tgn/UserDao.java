@@ -3,23 +3,26 @@ package si.um.feri.iroks.tgn;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import java.sql.Blob;
 
 public class UserDao {
 
 	private Connection getConnection() {
-		try {
-			DataSource ds = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/iroks");
-			return ds.getConnection();
-		} catch (Exception e) {
+	    try {
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/tgn?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8", "root", "F3RI");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+	    return null;
 	}
 	
 	public List<User> selectUser() throws Exception {
@@ -114,4 +117,22 @@ public class UserDao {
 		}
 		return hash.toString();
 	}
+	
+	public Blob defaultProfilePhoto() throws Exception {
+		Blob blob = null;
+		Connection conn=getConnection();
+		try {
+			
+			ResultSet rs=conn.createStatement().executeQuery("select photo from users where email='admin@tgn.com'");
+			while(rs.next()) {
+				blob = rs.getBlob("photo");
+			}
+			rs.close();
+			
+		} finally {
+			conn.close();
+		}
+		return blob;
+	}
+	
 }

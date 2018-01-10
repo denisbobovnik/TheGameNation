@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <link href="css/loginForm.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -42,18 +45,18 @@
           <div class="container">
             <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
-            <h1 class="brand"><a href="#top">TGN - The Game Nation</a></h1>
+            <h1 class="brand"><a href="index.jsp">TGN - The Game Nation</a></h1>
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
             <nav class="pull-right nav-collapse collapse">
               <ul id="menu-main" class="nav">
                 
-                <li><a title="portfolio" href="#portfolio">Home</a></li> <!-- this will be 3 most recent or something... -->
+                <li><a title="portfolio" href="index.jsp">Home</a></li> <!-- this will be 3 most recent or something... -->
                 
-                <li><a title="services" href="#services">All topics</a></li>
+                <li><a title="services" href="topics.jsp">All topics</a></li>
                 
      			<% if ((session.getAttribute("email") != null) && (((String) session.getAttribute("email")).compareTo("")!=0)) { %>           
-	                <li><a title="news" href="#news">Live chat</a></li> <!-- if we can't make it work site-wide -->
-               		<li><a title="team" href="#team">Account</a></li>
+	                <li><a title="news" href="liveChat.jsp">Live chat</a></li> <!-- if we can't make it work site-wide -->
+               		<li><a title="team" href="account.jsp">Account</a></li>
                 <% } %>
                 
                 <% if ((session.getAttribute("email") == null) || (((String) session.getAttribute("email")).compareTo("")==0)) { %>
@@ -65,9 +68,6 @@
               </ul>
             </nav>
           </div>
-          <!-- /.container -->
         </div>
-        <!-- /.navbar-inner -->
       </div>
-      <!-- /.navbar -->
     </div>

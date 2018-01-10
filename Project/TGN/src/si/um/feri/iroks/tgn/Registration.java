@@ -1,7 +1,13 @@
 package si.um.feri.iroks.tgn;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -57,11 +63,12 @@ public class Registration extends HttpServlet {
 	    			request.getRequestDispatcher("/registration.jsp").forward(request, response);
 	    		}
 	    		else {
-	    		    PreparedStatement ss = con.prepareStatement("insert into users(first_name, last_name, email, pass) values (?,?,?,?)");
+	    		    PreparedStatement ss = con.prepareStatement("insert into users(first_name, last_name, email, pass, photo) values (?,?,?,?,?)");
 	    			ss.setString(1, first_name);
 	    			ss.setString(2, last_name);
 	    			ss.setString(3, email);
 	    			ss.setString(4, hashedPassword);
+	    			ss.setBlob(5, new UserDao().defaultProfilePhoto());
 	    			ss.executeUpdate();
 	    			out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
 	    			out.println("alert('Registration successful! Redirecting to login...');");
@@ -71,6 +78,9 @@ public class Registration extends HttpServlet {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
