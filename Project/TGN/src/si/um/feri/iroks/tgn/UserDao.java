@@ -57,6 +57,25 @@ public class UserDao {
 		return ret;
 	}
 	
+	public User selectUser(String email) throws Exception {
+		User ret = null;
+		Connection conn = DBConnect.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("select * from users where email=?");
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ret = new User(rs.getInt("users_id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("pass"), rs.getBlob("photo"));
+				break;
+			}
+			rs.close();
+			
+		} finally {
+			conn.close();
+		}
+		return ret;
+	}
+	
 	public void deleteUser(int id) throws Exception {
 		Connection conn = DBConnect.getConnection();
 		try {

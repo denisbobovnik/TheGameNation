@@ -9,9 +9,6 @@
 		<input style="width: 200px;" type="text" id="email" name="email" value="" placeholder="Email" required><br>
 		<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password" required><br>
 		<input style="height: 50px; width: 100px;" type="submit" class="btn btn-1" value="Login" />
-	
-		<br />
-		<center><p id="feedback_reg"></p></center>
 		
 		<%String doesntExist = "";
 		if(request.getAttribute("doesntExist")!= null) {
