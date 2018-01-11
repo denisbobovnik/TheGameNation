@@ -12,6 +12,9 @@
 				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password" required><br>
 				<input style="height: 50px; width: 100px;" type="submit" class="btn btn-1" value="Register" />
 				
+				<br />
+				<center><p id="feedback_reg"></p></center>
+		
 				        <%String exists = "";
 						if(request.getAttribute("exists")!= null) {
 							exists = (String) request.getAttribute("exists");%>

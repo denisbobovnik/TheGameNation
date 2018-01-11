@@ -12,7 +12,7 @@
  	} else { %>
  	<br>
 	<div class="container">
-		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center" enctype="multipart/form-data">
+		<form method="post" onsubmit="return validateUpdate()" action="/TGN/UpdateUserInfo" style=" text-align:center" enctype="multipart/form-data">
 			<h3>Account</h3><br>
 			
 			<%	
@@ -33,6 +33,9 @@
 				<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password"><br>
 				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password"><br>
 				<input style="height: 50px; width: 100px;" id="i_submit" type="submit" class="btn btn-1" value="Update" />
+				
+				<br />
+				<center><p id="feedback_reg"></p></center>
 								
 						<%String noMatch = "";
 						if(request.getAttribute("noMatch")!= null) {
@@ -49,9 +52,6 @@
         </form>
 	</div>
 	<% } %>
-	
-	<!-- we should also check for the uploaded file type (jpg, png and jpeg) with some javascript -->
-	<!-- somethings wrong with the validator -->
-	
+		
  <%@include file="footer.jsp"%>
  
