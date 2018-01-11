@@ -12,7 +12,7 @@
  	} else { %>
  	<br>
 	<div class="container">
-		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center" enctype="multipart/form-data">
+		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center">
 			<h3>Account</h3><br>
 			
 			<%	
@@ -26,14 +26,19 @@
 				<img src="data:image/jpeg;base64,<%=base64DataString %>" height="50px" width="50px" alt="userPhoto" >
 				<%=loggedIn.getFirst_name() + " " + loggedIn.getLast_name() %>
 				<br><br>
-				<input type="file" name="photo" id="i_file" size="50" accept="image/jpeg"/><br><br>
 				<input style="width: 200px;" type="text" id="first_name" name="first_name" value="<%=loggedIn.getFirst_name() %>" placeholder="Name" required><br>
 				<input style="width: 200px;" type="text" id="last_name" name="last_name" value="<%=loggedIn.getLast_name() %>" placeholder="Last name" required><br>
 				<input type="hidden" id="email" name="email" value="<%=loggedIn.getEmail() %>">
-				<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password"><br>
-				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password"><br>
-				<input style="height: 50px; width: 100px;" id="i_submit" type="submit" class="btn btn-1" value="Update" />
-								
+				<input style="width: 200px;" type="password" id="pass" name="pass"  value="<%=loggedIn.getPass() %>" placeholder="Password" required><br>
+				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="<%=loggedIn.getPass() %>" placeholder="Repeat password" required><br>
+				<input style="height: 50px; width: 100px;" type="submit" class="btn btn-1" value="Update" />
+				
+				        <%String exists = "";
+						if(request.getAttribute("exists")!= null) {
+							exists = (String) request.getAttribute("exists");%>
+							<br /><center><%=exists %></center>
+						<%}%>
+						
 						<%String noMatch = "";
 						if(request.getAttribute("noMatch")!= null) {
 							noMatch = (String) request.getAttribute("noMatch");%>
@@ -45,13 +50,15 @@
 							fileTooBig = (String) request.getAttribute("fileTooBig");%>
 							<br /><center><%=fileTooBig %></center>
 						<%}%>
-													
+						
+						<%String wrongFileType = "";
+						if(request.getAttribute("wrongFileType")!= null) {
+							wrongFileType = (String) request.getAttribute("wrongFileType");%>
+							<br /><center><%=wrongFileType %></center>
+						<%}%>
+							
         </form>
 	</div>
 	<% } %>
-	
-	<!-- we should also check for the uploaded file type (jpg, png and jpeg) with some javascript -->
-	<!-- somethings wrong with the validator -->
-	
  <%@include file="footer.jsp"%>
  

@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@MultipartConfig
-@WebServlet(urlPatterns="/UpdateUserInfo")
+@WebServlet(urlPatterns="/UpdateUserInfo")	//@MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class UpdateUserInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String SALT = "my-salty-text";
@@ -43,94 +42,59 @@ public class UpdateUserInfo extends HttpServlet {
         Part filePart = request.getPart("photo");
         PrintWriter out = response.getWriter();
         
-        
-        if(((pass==null)&&(pass1==null))||((pass.equals("")&&(pass1.equals(""))))) { //password won't be changed
-        	if(filePart.getSize()!=0) { //photo will be changed
+        if((pass==null)&&(pass1==null)) { //password won't be changed
+        	if(filePart!=null) { //photo will be changed
         		InputStream inputStream = null;
         		long fileSize = 0;
                 String fileName = null;
                 fileSize = filePart.getSize();             
                 fileName = filePart.getName();
                 inputStream = filePart.getInputStream();
+                if(fileName.length()>45) {
+                	String fileNameLong = "File name too long! Try again.";
+                    request.setAttribute("fileNameLong", fileNameLong);
+            		request.getRequestDispatcher("/account.jsp").forward(request, response);
+                }
                 if(fileSize>=16177215) {
-                	String fileTooBig = "Uploaded file was too big (max. 16MB)! Try again.";
+                	String fileTooBig = "Uploaded file was too big! Try again.";
                     request.setAttribute("fileTooBig", fileTooBig);
             		request.getRequestDispatcher("/account.jsp").forward(request, response);
                 }
-    	    	try {
-					forTheServlet.updateUserAllButPassword(email, first_name, last_name, inputStream);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
-	    		out.println("alert('Update successful! Refreshing...');");
-	    		out.println("location='account.jsp';");
-	    		out.println("</script>");
+                
         	} else { //photo won't be changed
-    	    	try {
-					forTheServlet.updateUserOnlyNames(email, first_name, last_name);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
-	    		out.println("alert('Update successful! Refreshing...');");
-	    		out.println("location='account.jsp';");
-	    		out.println("</script>");
+        		
         	}
         } else if(pass.compareTo(pass1)==0) { //passwords must match to be changed
-        	if(filePart.getSize()!=0) { //photo will be changed
+        	if(filePart!=null) { //photo will be changed
         		InputStream inputStream = null;
         		long fileSize = 0;
                 String fileName = null;
                 fileSize = filePart.getSize();             
                 fileName = filePart.getName();
                 inputStream = filePart.getInputStream();
+                if(fileName.length()>45) {
+                	String fileNameLong = "File name too long! Try again.";
+                    request.setAttribute("fileNameLong", fileNameLong);
+            		request.getRequestDispatcher("/account.jsp").forward(request, response);
+                }
                 if(fileSize>=16177215) {
-                	String fileTooBig = "Uploaded file was too big (max. 16MB)! Try again.";
+                	String fileTooBig = "Uploaded file was too big! Try again.";
                     request.setAttribute("fileTooBig", fileTooBig);
             		request.getRequestDispatcher("/account.jsp").forward(request, response);
                 }
                 String saltyPassword = SALT + pass;
     			String hashedPassword = forTheServlet.generateHash(saltyPassword);
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+				Class.forName("com.mysql.jdbc.Driver");
 	    	    Connection con = DBConnect.getConnection();
-	    	    try {
-					Statement st = con.createStatement();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-    	    	try {
-					forTheServlet.updateUserAll(email, first_name, last_name, hashedPassword, inputStream);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
-	    		out.println("alert('Update successful! Refreshing...');");
-	    		out.println("location='account.jsp';");
-	    		out.println("</script>");
+	    	    Statement st = con.createStatement();
+                
         	} else { //photo won't be changed
         		String saltyPassword = SALT + pass;
     			String hashedPassword = forTheServlet.generateHash(saltyPassword);
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+				Class.forName("com.mysql.jdbc.Driver");
 	    	    Connection con = DBConnect.getConnection();
-	    	    try {
-					Statement st = con.createStatement();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-    	    	try {
-					forTheServlet.updateUserAllButPhoto(email, first_name, last_name, hashedPassword);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	    	    Statement st = con.createStatement();
+	    	    forTheServlet.updateUserOnlyNames(email, first_name, last_name);
 	    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
 	    		out.println("alert('Update successful! Refreshing...');");
 	    		out.println("location='account.jsp';");
@@ -141,5 +105,50 @@ public class UpdateUserInfo extends HttpServlet {
             request.setAttribute("noMatch", noMatch);
     		request.getRequestDispatcher("/account.jsp").forward(request, response);
         }
+                
+	    	    try {
+
+		    	    
+		    	    if((fileName==null)&&(pass.equals(""))) { //ni ne slike, ne gesla
+		    	    	
+		    	    } else if((fileName!=null)&&(pass.equals(""))) {
+		    	    	forTheServlet.updateUserAllButPassword(email, first_name, last_name, inputStream);
+			    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
+			    		out.println("alert('Update successful! Refreshing...');");
+			    		out.println("location='account.jsp';");
+			    		out.println("</script>");
+		    	    } else if((fileName==null)&&(!pass.equals(""))) {
+		    	    	forTheServlet.updateUserAllButPhoto(email, first_name, last_name, hashedPassword);
+			    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
+			    		out.println("alert('Update successful! Refreshing...');");
+			    		out.println("location='account.jsp';");
+			    		out.println("</script>");
+		    	    } else {
+		    	    	forTheServlet.updateUserAll(email, first_name, last_name, hashedPassword, inputStream);
+			    		out.println("<script type=\"text/javascript\" charset=\"utf-8\">");
+			    		out.println("alert('Update successful! Refreshing...');");
+			    		out.println("location='account.jsp';");
+			    		out.println("</script>");
+		    	    }
+		    	    
+		    	    /*
+							
+							<%String wrongFileType = "";
+							if(request.getAttribute("wrongFileType")!= null) {
+								wrongFileType = (String) request.getAttribute("wrongFileType");%>
+								<br /><center><%=wrongFileType %></center>
+							<%}%>
+		    	     * */
+		    	    
+		    	
+	
+		    		
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	}
 }
