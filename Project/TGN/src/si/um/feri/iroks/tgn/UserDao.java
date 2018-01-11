@@ -1,5 +1,6 @@
 package si.um.feri.iroks.tgn;
 
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -108,6 +109,68 @@ public class UserDao {
 			conn.close();
 		}
 	}
+	
+	public void updateUserAll(String email, String first_name, String last_name, String pass, InputStream inputStream) throws Exception {
+		Connection conn = DBConnect.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update users set first_name=?, last_name=?, pass=?, photo=? where email=?");
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ps.setString(3, pass);
+			ps.setBinaryStream(4, inputStream);
+			ps.setString(5, email);
+			ps.executeUpdate();
+
+		} finally {
+			if(conn!=null)
+			conn.close();
+		}
+	}
+	public void updateUserAllButPhoto(String email, String first_name, String last_name, String pass) throws Exception {
+		Connection conn = DBConnect.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update users set first_name=?, last_name=?, pass=? where email=?");
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ps.setString(3, pass);
+			ps.setString(4, email);
+			ps.executeUpdate();
+
+		} finally {
+			if(conn!=null)
+			conn.close();
+		}
+	}
+	public void updateUserAllButPassword(String email, String first_name, String last_name, InputStream inputStream) throws Exception {
+		Connection conn = DBConnect.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update users set first_name=?, last_name=?, photo=? where email=?");
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ps.setBinaryStream(3, inputStream);
+			ps.setString(4, email);
+			ps.executeUpdate();
+
+		} finally {
+			if(conn!=null)
+			conn.close();
+		}
+	}
+	public void updateUserOnlyNames(String email, String first_name, String last_name) throws Exception {
+		Connection conn = DBConnect.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update users set first_name=?, last_name=? where email=?");
+			ps.setString(1, first_name);
+			ps.setString(2, last_name);
+			ps.setString(3, email);
+			ps.executeUpdate();
+
+		} finally {
+			if(conn!=null)
+			conn.close();
+		}
+	}
+	
 	public static String generateHash(String input) {
 		StringBuilder hash = new StringBuilder();
 

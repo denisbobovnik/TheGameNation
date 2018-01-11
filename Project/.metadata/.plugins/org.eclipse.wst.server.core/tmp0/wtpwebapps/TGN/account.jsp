@@ -3,9 +3,7 @@
  <%@page import="si.um.feri.iroks.tgn.*"%>
  <%@page import="java.sql.Blob"%>
  <%@page import="java.io.OutputStream" %>
- 
-
- <%@page import="org.apache.commons.codec.binary.Base64" %>
+  <%@page import="java.util.Base64" %>
  	<% if((session.getAttribute("email") == null)||(session.getAttribute("email").equals(""))) { 
  	    out.println("<script type=\"text/javascript\">");
  	    out.println("alert('To access this page, you must be logged in!');");
@@ -14,7 +12,7 @@
  	} else { %>
  	<br>
 	<div class="container">
-		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center">
+		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center" enctype="multipart/form-data">
 			<h3>Account</h3><br>
 			
 			<%	
@@ -22,22 +20,20 @@
 				User loggedIn = new UserDao().selectUser(email);
 				Blob pic = loggedIn.getPhoto();
 				byte[] picData = pic.getBytes(1, (int) pic.length());
+				byte[] encoded = Base64.getEncoder().encode(picData);
+				String base64DataString = new String(encoded , "UTF-8");
 			%>
-				<img src="data:image/jpeg;base64,<%=Base64.encodeBase64() %> Base64.encodeBase64()" height="50px" width="50px" alt="userPhoto" >
-			
-			
-				<input style="width: 200px;" type="text" id="first_name" name="first_name" value="" placeholder="Name" required><br>
-				<input style="width: 200px;" type="text" id="last_name" name="last_name" value="" placeholder="Last name" required><br>
-				<input type="hidden" id="email" name="email" value="admin@tgn.com">
-				<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password" required><br>
-				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password" required><br>
+				<img src="data:image/jpeg;base64,<%=base64DataString %>" height="50px" width="50px" alt="userPhoto" >
+				<%=loggedIn.getFirst_name() + " " + loggedIn.getLast_name() %>
+				<br><br>
+				<input type="file" name="photo" size="50" accept="image/jpeg"/><br><br>
+				<input style="width: 200px;" type="text" id="first_name" name="first_name" value="<%=loggedIn.getFirst_name() %>" placeholder="Name" required><br>
+				<input style="width: 200px;" type="text" id="last_name" name="last_name" value="<%=loggedIn.getLast_name() %>" placeholder="Last name" required><br>
+				<input type="hidden" id="email" name="email" value="<%=loggedIn.getEmail() %>">
+				<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password"><br>
+				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password"><br>
 				<input style="height: 50px; width: 100px;" type="submit" class="btn btn-1" value="Update" />
-				
-				        <%String exists = "";
-						if(request.getAttribute("exists")!= null) {
-							exists = (String) request.getAttribute("exists");%>
-							<br /><center><%=exists %></center>
-						<%}%>
+								
 						
 						<%String noMatch = "";
 						if(request.getAttribute("noMatch")!= null) {
@@ -56,6 +52,14 @@
 							wrongFileType = (String) request.getAttribute("wrongFileType");%>
 							<br /><center><%=wrongFileType %></center>
 						<%}%>
+						
+						<%String fileNameLong = "";
+						if(request.getAttribute("fileNameLong")!= null) {
+							fileNameLong = (String) request.getAttribute("fileNameLong");%>
+							<br /><center><%=fileNameLong %></center>
+						<%}%>
+							
+							
 							
         </form>
 	</div>
