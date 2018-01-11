@@ -55,7 +55,6 @@
                 <li><a title="services" href="topics.jsp">All topics</a></li>
                 
      			<% if ((session.getAttribute("email") != null) && (((String) session.getAttribute("email")).compareTo("")!=0)) { %>           
-	                <li><a title="news" href="liveChat.jsp">Live chat</a></li> <!-- if we can't make it work site-wide -->
                		<li><a title="team" href="account.jsp">Account</a></li>
                 <% } %>
                 
