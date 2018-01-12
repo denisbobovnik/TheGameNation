@@ -7,10 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <link href="css/loginForm.css" rel="stylesheet">
-    <link href="css/font-awesome.css" rel="stylesheet">
-
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel='stylesheet' id='prettyphoto-css'  href="css/prettyPhoto.css" type='text/css' media='all'>
@@ -26,7 +22,7 @@
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon.ico">
     
-    <script type="text/javascript" src="js/validator.js"></script>
+  	<script type="text/javascript" src="js/validator.js"></script>
     
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jquery.scrollTo-1.4.2-min.js"></script>

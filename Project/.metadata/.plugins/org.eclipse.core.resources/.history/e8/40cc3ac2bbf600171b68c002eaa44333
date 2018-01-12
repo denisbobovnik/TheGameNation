@@ -1,0 +1,57 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+ <%@include file="header.jsp"%>
+ <%@page import="si.um.feri.iroks.tgn.*"%>
+ <%@page import="java.sql.Blob"%>
+ <%@page import="java.io.OutputStream" %>
+  <%@page import="java.util.Base64" %>
+ 	<% if((session.getAttribute("email") == null)||(session.getAttribute("email").equals(""))) { 
+ 	    out.println("<script type=\"text/javascript\">");
+ 	    out.println("alert('To access this page, you must be logged in!');");
+ 	    out.println("location='login.jsp';");
+ 	   	out.println("</script>");
+ 	} else { %>
+ 	<br>
+	<div class="container">
+		<form method="post" onsubmit="return validateRegistration()" action="/TGN/UpdateUserInfo" style=" text-align:center" enctype="multipart/form-data">
+			<h3>Account</h3><br>
+			
+			<%	
+				String email = (String) session.getAttribute("email");
+				User loggedIn = new UserDao().selectUser(email);
+				Blob pic = loggedIn.getPhoto();
+				byte[] picData = pic.getBytes(1, (int) pic.length());
+				byte[] encoded = Base64.getEncoder().encode(picData);
+				String base64DataString = new String(encoded , "UTF-8");
+			%>
+				<img src="data:image/jpeg;base64,<%=base64DataString %>" height="50px" width="50px" alt="userPhoto" >
+				<%=loggedIn.getFirst_name() + " " + loggedIn.getLast_name() %>
+				<br><br>
+				<input type="file" name="photo" id="i_file" size="50" accept="image/jpeg"/><br><br>
+				<input style="width: 200px;" type="text" id="first_name" name="first_name" value="<%=loggedIn.getFirst_name() %>" placeholder="Name" required><br>
+				<input style="width: 200px;" type="text" id="last_name" name="last_name" value="<%=loggedIn.getLast_name() %>" placeholder="Last name" required><br>
+				<input type="hidden" id="email" name="email" value="<%=loggedIn.getEmail() %>">
+				<input style="width: 200px;" type="password" id="pass" name="pass"  value="" placeholder="Password"><br>
+				<input style="width: 200px;" type="password" id="pass1" name="pass1"  value="" placeholder="Repeat password"><br>
+				<input style="height: 50px; width: 100px;" id="i_submit" type="submit" class="btn btn-1" value="Update" />
+								
+						<%String noMatch = "";
+						if(request.getAttribute("noMatch")!= null) {
+							noMatch = (String) request.getAttribute("noMatch");%>
+							<br /><center><%=noMatch %></center>
+						<%}%>
+						d
+						<%String fileTooBig = "";
+						if(request.getAttribute("fileTooBig")!= null) {
+							fileTooBig = (String) request.getAttribute("fileTooBig");%>
+							<br /><center><%=fileTooBig %></center>
+						<%}%>
+													
+        </form>
+	</div>
+	<% } %>
+	
+	<!-- we should also check for the uploaded file type (jpg, png and jpeg) with some javascript -->
+	<!-- somethings wrong with the validator -->
+	
+ <%@include file="footer.jsp"%>
+ 
